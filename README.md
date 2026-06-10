@@ -8,6 +8,8 @@ in. It is **not** a transcription tool; it turns rambling speech into clean writ
 
 Everything runs on your machine. No telemetry, no analytics, no data leaves the box.
 
+![Larkyn dashboard](docs/screenshot.png)
+
 ```
 Audio ─▶ Whisper ─▶ Raw Transcript ─▶ gemma4:e2b-it-qat ─▶ Final Written Output
 ```
