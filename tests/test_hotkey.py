@@ -1,6 +1,6 @@
 from pynput.keyboard import Key, KeyCode
 
-from hermes.hotkey import HotkeyListener, parse_hotkey
+from larkyn.hotkey import HotkeyListener, parse_hotkey
 
 
 def test_parse_default_hotkey():

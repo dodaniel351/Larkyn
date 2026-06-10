@@ -1,4 +1,4 @@
-# Hermes Dictate — core runtime dependencies
+# Larkyn — core runtime dependencies
 # Install:  pip install -r requirements.txt
 # For NVIDIA GPU Whisper acceleration, also: pip install -r requirements-gpu.txt
 

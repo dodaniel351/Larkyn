@@ -1,7 +1,7 @@
 import datetime
 
-from hermes.core.interfaces import Session
-from hermes.history.store import SqliteHistoryStore
+from larkyn.core.interfaces import Session
+from larkyn.history.store import SqliteHistoryStore
 
 
 def _session(raw: str, rewritten: str, profile: str = "general") -> Session:

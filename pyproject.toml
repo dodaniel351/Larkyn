@@ -28,10 +28,10 @@ gpu = ["nvidia-cublas-cu12", "nvidia-cudnn-cu12>=9.0"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-larkyn = "hermes.__main__:main"
+larkyn = "larkyn.__main__:main"
 
 [tool.setuptools.packages.find]
-include = ["hermes*"]
+include = ["larkyn*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

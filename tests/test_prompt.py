@@ -1,5 +1,5 @@
-from hermes.prompt.profiles import BUILTIN_PROFILES, build_messages, get_profile
-from hermes.prompt.system_prompt import SPEC_SYSTEM_PROMPT
+from larkyn.prompt.profiles import BUILTIN_PROFILES, build_messages, get_profile
+from larkyn.prompt.system_prompt import SPEC_SYSTEM_PROMPT
 
 
 def test_general_uses_base_prompt_without_profile_line():

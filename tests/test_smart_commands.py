@@ -1,4 +1,4 @@
-from hermes.prompt.smart_commands import apply_smart_commands
+from larkyn.prompt.smart_commands import apply_smart_commands
 
 
 def test_new_paragraph():

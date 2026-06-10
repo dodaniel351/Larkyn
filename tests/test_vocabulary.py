@@ -1,4 +1,4 @@
-from hermes.prompt.vocabulary import (
+from larkyn.prompt.vocabulary import (
     enforce_vocabulary,
     normalize_terms,
     vocabulary_clause,

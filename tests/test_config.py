@@ -1,4 +1,4 @@
-from hermes.config import DEFAULT_ENDPOINT, DEFAULT_MODEL, AppConfig
+from larkyn.config import DEFAULT_ENDPOINT, DEFAULT_MODEL, AppConfig
 
 
 def test_defaults_match_spec():

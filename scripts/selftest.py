@@ -24,12 +24,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
 
-from hermes.config import AppConfig
-from hermes.core.interfaces import ModelParams
-from hermes.llm.openai_provider import OpenAIProvider
-from hermes.prompt.profiles import build_messages, get_profile
-from hermes.prompt.vocabulary import enforce_vocabulary
-from hermes.stt.faster_whisper_engine import FasterWhisperEngine
+from larkyn.config import AppConfig
+from larkyn.core.interfaces import ModelParams
+from larkyn.llm.openai_provider import OpenAIProvider
+from larkyn.prompt.profiles import build_messages, get_profile
+from larkyn.prompt.vocabulary import enforce_vocabulary
+from larkyn.stt.faster_whisper_engine import FasterWhisperEngine
 
 
 def read_wav(path: str) -> tuple[np.ndarray, int]:
@@ -93,7 +93,7 @@ def main() -> int:
     print(f"[RAW] {tr.text!r}")
 
     if cfg.llm.provider == "ollama":
-        from hermes.llm.ollama_provider import OllamaNativeProvider
+        from larkyn.llm.ollama_provider import OllamaNativeProvider
 
         llm = OllamaNativeProvider(
             endpoint=cfg.llm.endpoint, timeout_s=cfg.llm.timeout_s, think=cfg.llm.think

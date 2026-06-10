@@ -1,8 +1,8 @@
-"""Dev launcher: `python run.py` (equivalent to `python -m hermes`)."""
+"""Dev launcher: `python run.py` (equivalent to `python -m larkyn`)."""
 
 import sys
 
-from hermes.__main__ import main
+from larkyn.__main__ import main
 
 if __name__ == "__main__":
     sys.exit(main())

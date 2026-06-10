@@ -72,8 +72,8 @@ Requires Python 3.10+ on Windows 11.
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\process_logo.py       # regenerate icon from assets\logo.png (optional)
-.\.venv\Scripts\pyinstaller.exe hermes.spec --noconfirm  # dist\Larkyn\
-ISCC.exe installer\hermes.iss                            # dist\installer\LarkynSetup.exe
+.\.venv\Scripts\pyinstaller.exe larkyn.spec --noconfirm  # dist\Larkyn\
+ISCC.exe installer\larkyn.iss                            # dist\installer\LarkynSetup.exe
 ```
 
 ## Configuration
@@ -98,18 +98,18 @@ Switching to another model/provider is a Settings change — no code edits.
 
 ## Architecture
 
-Modular, swappable plugins behind abstract interfaces (`hermes/core/interfaces.py`),
+Modular, swappable plugins behind abstract interfaces (`larkyn/core/interfaces.py`),
 wired by an `Orchestrator` that runs the pipeline off the UI thread:
 
 | Component | Module | Backend |
 |---|---|---|
-| Audio capture | `hermes/audio/capture.py` | sounddevice |
-| Speech-to-text | `hermes/stt/faster_whisper_engine.py` | faster-whisper |
-| Prompt engine | `hermes/prompt/` | profiles + vocabulary + smart commands |
-| LLM rewrite | `hermes/llm/` | Ollama native / OpenAI-compatible |
-| Output | `hermes/output/sink.py` | clipboard / auto-paste / draft |
-| History | `hermes/history/store.py` | SQLite + FTS5 |
-| UI | `hermes/ui/` | PySide6 + Fluent widgets |
+| Audio capture | `larkyn/audio/capture.py` | sounddevice |
+| Speech-to-text | `larkyn/stt/faster_whisper_engine.py` | faster-whisper |
+| Prompt engine | `larkyn/prompt/` | profiles + vocabulary + smart commands |
+| LLM rewrite | `larkyn/llm/` | Ollama native / OpenAI-compatible |
+| Output | `larkyn/output/sink.py` | clipboard / auto-paste / draft |
+| History | `larkyn/history/store.py` | SQLite + FTS5 |
+| UI | `larkyn/ui/` | PySide6 + Fluent widgets |
 
 ## Troubleshooting
 

@@ -1,4 +1,4 @@
-"""Generate assets/hermes.ico (multi-size) from the programmatic mic icon.
+"""Generate assets/larkyn.ico (multi-size) from the programmatic mic icon.
 
 The mic is drawn on a rounded blue tile so it reads well as a desktop/taskbar
 icon at every size. Re-run after changing the icon design.
@@ -17,11 +17,11 @@ from PySide6.QtCore import QBuffer, QIODevice, QRectF, Qt
 from PySide6.QtGui import QColor, QImage, QLinearGradient, QPainter
 from PySide6.QtWidgets import QApplication
 
-from hermes.ui.icons import _mic_pixmap
+from larkyn.ui.icons import _mic_pixmap
 
 SIZES = [16, 24, 32, 48, 64, 128, 256]
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                   "assets", "hermes.ico")
+                   "assets", "larkyn.ico")
 
 
 def tile_image(size: int) -> QImage:

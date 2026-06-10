@@ -5,8 +5,8 @@ import time
 import numpy as np
 import pytest
 
-from hermes.config import AppConfig
-from hermes.core.interfaces import (
+from larkyn.config import AppConfig
+from larkyn.core.interfaces import (
     AudioCapture,
     HistoryStore,
     LLMProvider,
@@ -76,7 +76,7 @@ class FakeHistory(HistoryStore):
 
 @pytest.fixture
 def orch(qt_app):
-    from hermes.core.orchestrator import Orchestrator
+    from larkyn.core.orchestrator import Orchestrator
 
     cfg = AppConfig()
     cfg.hotkey.mode = "hold"

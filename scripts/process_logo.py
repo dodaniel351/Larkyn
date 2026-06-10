@@ -6,7 +6,7 @@
 3. Crop the emblem (the circular bird mark, above the wordmark):
    - transparent -> assets/emblem.png (used inside the dark-themed app UI)
    - on a solid white tile -> assets/emblem_white.png (crisper at small sizes)
-4. Build the multi-size assets/hermes.ico from the WHITE-backed emblem — solid
+4. Build the multi-size assets/larkyn.ico from the WHITE-backed emblem — solid
    background keeps full contrast on dark taskbars (user preference).
 
 Re-run whenever assets/logo.png changes.
@@ -126,9 +126,9 @@ def main() -> None:
     emblem_white = on_white_tile(emblem)
     emblem_white.save(os.path.join(ASSETS, "emblem_white.png"))
 
-    build_ico(emblem_white, os.path.join(ASSETS, "hermes.ico"))
+    build_ico(emblem_white, os.path.join(ASSETS, "larkyn.ico"))
     print(f"logo_transparent.png {transparent.size}, emblem.png {emblem.size}, "
-          f"emblem_white.png {emblem_white.size}, hermes.ico sizes {ICO_SIZES}")
+          f"emblem_white.png {emblem_white.size}, larkyn.ico sizes {ICO_SIZES}")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
-from hermes.llm.ollama_provider import native_base_url
-from hermes.llm.openai_provider import _clean
+from larkyn.llm.ollama_provider import native_base_url
+from larkyn.llm.openai_provider import _clean
 
 
 def test_native_base_url_strips_v1():
