@@ -115,9 +115,14 @@ class HomePage(QWidget):
         self._rawSwitch = SwitchButton()
         self._rawSwitch.setChecked(ctx.config.output.raw_mode)
         ql.addWidget(self._rawSwitch, 1, 2)
+        raw_hint = CaptionLabel(
+            "Pastes exactly what you said — no AI cleanup of filler words or grammar."
+        )
+        raw_hint.setWordWrap(True)
+        ql.addWidget(raw_hint, 2, 2)
         ql.setColumnStretch(0, 2)
         ql.setColumnStretch(1, 2)
-        ql.setColumnStretch(2, 1)
+        ql.setColumnStretch(2, 2)
         root.addWidget(quick)
 
         # --- Stats + recent ----------------------------------------------

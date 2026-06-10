@@ -137,6 +137,9 @@ def main() -> int:
     tray = TrayController(app, ctx, overlay, on_open=window.show_window)
     log.info("Tray icon shown (look in the hidden-icons '^' area on the taskbar).")
 
+    # Load Whisper in the background now so the first dictation is instant.
+    orchestrator.warm_up()
+
     # --- global hotkey -----------------------------------------------------------
     bridge = HotkeyBridge()
     bridge.pressed.connect(orchestrator.on_hotkey_down, Qt.QueuedConnection)
@@ -172,6 +175,7 @@ def main() -> int:
         orchestrator.set_transcriber(build_transcriber(config))
         log.info("Whisper engine rebuilt | model=%s device=%s",
                  config.stt.model, config.stt.device)
+        orchestrator.warm_up()  # load the new model before the next dictation
 
     bus.hotkeyChanged.connect(on_hotkey_changed)
     bus.llmChanged.connect(on_llm_changed)

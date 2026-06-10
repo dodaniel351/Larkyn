@@ -82,6 +82,8 @@ class FasterWhisperEngine(Transcriber):
         beam_size: int = 1,
         vad_filter: bool = True,
     ) -> None:
+        import threading
+
         self._model_name = model
         self._device = device
         self._compute_type = compute_type
@@ -90,6 +92,9 @@ class FasterWhisperEngine(Transcriber):
         self._vad_filter = vad_filter
         self._model = None
         self._resolved: tuple[str, str] | None = None
+        # Guards lazy loading: the startup preload thread and the first
+        # dictation may race to load the model.
+        self._load_lock = threading.Lock()
 
     def _resolve_device(self) -> tuple[str, str]:
         device = self._device
@@ -110,19 +115,32 @@ class FasterWhisperEngine(Transcriber):
     def _ensure_model(self) -> None:
         if self._model is not None:
             return
-        _enable_cuda_dlls()
-        from faster_whisper import WhisperModel
+        with self._load_lock:
+            if self._model is not None:
+                return
+            _enable_cuda_dlls()
+            from faster_whisper import WhisperModel
 
-        device, compute = self._resolve_device()
+            device, compute = self._resolve_device()
+            try:
+                model = WhisperModel(self._model_name, device=device, compute_type=compute)
+                self._resolved = (device, compute)
+            except Exception:
+                # GPU init failed (missing CUDA libs, OOM, etc.) -> CPU fallback.
+                log.exception("Whisper init on %s failed; falling back to CPU int8", device)
+                model = WhisperModel(self._model_name, device="cpu", compute_type="int8")
+                self._resolved = ("cpu", "int8")
+            self._model = model
+            log.info("Whisper model %s loaded on %s (%s)", self._model_name, *self._resolved)
+
+    def preload(self) -> None:
+        """Load the model ahead of the first dictation (run from a worker thread)."""
         try:
-            self._model = WhisperModel(self._model_name, device=device, compute_type=compute)
-            self._resolved = (device, compute)
+            self._ensure_model()
         except Exception:
-            # GPU init failed (missing CUDA libs, OOM, etc.) -> CPU fallback.
-            log.exception("Whisper init on %s failed; falling back to CPU int8", device)
-            self._model = WhisperModel(self._model_name, device="cpu", compute_type="int8")
-            self._resolved = ("cpu", "int8")
-        log.info("Whisper model %s loaded on %s (%s)", self._model_name, *self._resolved)
+            # Never let a warm-up failure break anything; the next dictation
+            # will retry and surface a real error if one exists.
+            log.exception("Whisper preload failed")
 
     @property
     def resolved_device(self) -> tuple[str, str] | None:

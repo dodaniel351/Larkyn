@@ -123,6 +123,31 @@ def test_short_tap_is_discarded(orch):
     assert sink.delivered == []
 
 
+def test_warm_up_preloads_transcriber_in_background(orch):
+    o, cfg, capture, sink = orch
+
+    class PreloadableTranscriber(FakeTranscriber):
+        def __init__(self):
+            self.preloaded = 0
+
+        def preload(self):
+            self.preloaded += 1
+
+    t = PreloadableTranscriber()
+    o.set_transcriber(t)
+    o.warm_up()
+    deadline = time.time() + 2
+    while t.preloaded == 0 and time.time() < deadline:
+        time.sleep(0.01)
+    assert t.preloaded == 1
+
+
+def test_warm_up_is_safe_without_preload_support(orch):
+    o, cfg, capture, sink = orch
+    o.set_transcriber(FakeTranscriber())  # no preload() method
+    o.warm_up()  # must not raise
+
+
 def test_toggle_mode_ignores_release(orch):
     o, cfg, capture, sink = orch
     cfg.hotkey.mode = "toggle"

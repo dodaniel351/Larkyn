@@ -93,6 +93,14 @@ class Orchestrator(QObject):
         """Swap the STT backend (e.g. after Whisper settings change)."""
         self._transcriber = transcriber
 
+    def warm_up(self) -> None:
+        """Preload the STT model in the background so the first dictation is
+        fast (a cold model load otherwise costs several seconds)."""
+        preload = getattr(self._transcriber, "preload", None)
+        if callable(preload):
+            log.info("Warming up the speech model in the background…")
+            threading.Thread(target=preload, daemon=True, name="stt-preload").start()
+
     @property
     def history(self) -> HistoryStore:
         return self._history

@@ -7,5 +7,5 @@ text using a local Whisper model for transcription and a local LLM
 (The internal package name is `larkyn`.)
 """
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 APP_NAME = "Larkyn"
