@@ -41,18 +41,33 @@ Audio ─▶ Whisper ─▶ Raw Transcript ─▶ gemma4:e2b-it-qat ─▶ Final
 
 ## Install (end users)
 
-**[⬇ Download the latest installer from Releases](https://github.com/dodaniel351/Larkyn/releases/latest)** (`LarkynSetup.exe`, ~1.9 GB — it bundles the full runtime, CUDA libraries, and UI so it works offline).
+First-time setup takes about 10 minutes, most of it downloads. Larkyn needs one
+companion program — **Ollama** — which runs the AI model locally on your PC.
 
-Run **`LarkynSetup.exe`** and follow the wizard (no admin required).
-Optional: desktop shortcut and start-at-sign-in (runs minimized to the tray).
+**Step 1 — Install Ollama.** Download it from
+[ollama.com/download](https://ollama.com/download) (Download for Windows) and run
+`OllamaSetup.exe`. It runs quietly in the background afterwards — nothing to configure.
 
-Prerequisite: **Ollama ≥ 0.30.7** with the model pulled:
+**Step 2 — Download the AI model** (one time, ~4.3 GB). Open PowerShell
+(Windows key → type `powershell` → Enter) and run:
 
 ```powershell
 ollama pull gemma4:e2b-it-qat
 ```
 
-On first dictation Larkyn downloads the Whisper model (~1.6 GB, one time).
+Confirm with `ollama list` — you should see `gemma4:e2b-it-qat` listed.
+
+**Step 3 — Install Larkyn.**
+**[⬇ Download the latest installer from Releases](https://github.com/dodaniel351/Larkyn/releases/latest)**
+(`LarkynSetup.exe`, ~1.9 GB — bundles the full runtime and CUDA libraries so it
+works offline). Run it and follow the wizard — no admin rights needed. If Windows
+SmartScreen warns (the installer isn't code-signed yet), click **More info → Run anyway**.
+
+**Step 4 — Dictate.** Launch Larkyn from the Start menu. The very first dictation
+downloads the speech-recognition model (~1.6 GB, one time); after that it's instant.
+Click into any text box, **hold `Ctrl+Alt+Space`, speak, release** — polished text
+appears at your cursor. Pick your own hotkey and behavior in **Settings → Global
+hotkey**, and use **Settings → AI model → Test connection** to verify your setup.
 
 ## Run from source (developers)
 
