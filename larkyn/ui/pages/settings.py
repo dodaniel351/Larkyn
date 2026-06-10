@@ -270,6 +270,20 @@ class SettingsPage(ScrollArea):
         out.addWidget(self._pasteDelay, 0, 1)
         root.addWidget(out_card)
 
+        # --- Startup -----------------------------------------------------------
+        from larkyn import autostart
+
+        st_card, st = _card(
+            "Startup",
+            "Larkyn starts minimized to the system tray, so dictation is always "
+            "one hotkey away.",
+        )
+        st.addWidget(BodyLabel("Start Larkyn when I sign in to Windows"), 0, 0)
+        self._autostart = SwitchButton()
+        self._autostart.setChecked(autostart.is_enabled())
+        st.addWidget(self._autostart, 0, 1)
+        root.addWidget(st_card)
+
         # --- Appearance --------------------------------------------------------
         ap_card, ap = _card("Appearance")
         ap.addWidget(BodyLabel("Theme"), 0, 0)
@@ -376,6 +390,15 @@ class SettingsPage(ScrollArea):
         cfg.output.paste_delay_ms = self._pasteDelay.value()
         cfg.theme = self._theme.currentData()
         cfg.save()
+
+        from larkyn import autostart
+
+        try:
+            if self._autostart.isChecked() != autostart.is_enabled():
+                autostart.set_enabled(self._autostart.isChecked())
+        except Exception:  # registry hiccup — don't block the rest of the save
+            InfoBar.error("Startup", "Could not update the Windows startup entry.",
+                          duration=4000, position=InfoBarPosition.TOP, parent=self)
 
         if llm_changed:
             bus.llmChanged.emit()

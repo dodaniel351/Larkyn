@@ -8,6 +8,7 @@ from qfluentwidgets import FluentIcon, FluentWindow, NavigationItemPosition
 
 from larkyn.ui.context import UiContext
 from larkyn.ui.icons import app_icon
+from larkyn.ui.pages.about import AboutPage
 from larkyn.ui.pages.history import HistoryPage
 from larkyn.ui.pages.home import HomePage
 from larkyn.ui.pages.profiles import ProfilesPage
@@ -29,6 +30,7 @@ class MainWindow(FluentWindow):
         self.profilesPage = ProfilesPage(ctx, self)
         self.vocabularyPage = VocabularyPage(ctx, self)
         self.settingsPage = SettingsPage(ctx, self)
+        self.aboutPage = AboutPage(ctx, self)
 
         self.addSubInterface(self.homePage, FluentIcon.HOME, "Home")
         self.addSubInterface(self.historyPage, FluentIcon.HISTORY, "History")
@@ -36,6 +38,10 @@ class MainWindow(FluentWindow):
         self.addSubInterface(self.vocabularyPage, FluentIcon.DICTIONARY, "Vocabulary")
         self.addSubInterface(
             self.settingsPage, FluentIcon.SETTING, "Settings",
+            position=NavigationItemPosition.BOTTOM,
+        )
+        self.addSubInterface(
+            self.aboutPage, FluentIcon.INFO, "About",
             position=NavigationItemPosition.BOTTOM,
         )
 

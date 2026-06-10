@@ -3,7 +3,7 @@
 ; Produces dist\installer\LarkynSetup.exe
 
 #define AppName "Larkyn"
-#define AppVersion "0.2.2"
+#define AppVersion "0.2.3"
 #define AppPublisher "Dermatology Solutions Group"
 #define AppExeName "Larkyn.exe"
 

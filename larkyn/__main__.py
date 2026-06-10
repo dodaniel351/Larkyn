@@ -101,7 +101,10 @@ def main() -> int:
     shm = QSharedMemory("Larkyn_singleton")
     if not shm.create(1):
         log.warning("Another instance is already running; exiting.")
-        QMessageBox.information(None, "Larkyn", "Larkyn is already running.")
+        # At sign-in (--minimized) a duplicate launch must exit quietly —
+        # e.g. the autostart entry firing while Larkyn is already up.
+        if "--minimized" not in sys.argv:
+            QMessageBox.information(None, "Larkyn", "Larkyn is already running.")
         return 0
 
     if not QSystemTrayIcon.isSystemTrayAvailable():
