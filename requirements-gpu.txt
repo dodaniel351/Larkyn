@@ -1,0 +1,6 @@
+# Optional NVIDIA CUDA 12 libraries for faster-whisper GPU acceleration.
+# Needed on Windows so CTranslate2 can find cuBLAS + cuDNN 9 at runtime.
+# The app auto-detects CUDA and falls back to CPU if these are absent.
+nvidia-cuda-runtime-cu12
+nvidia-cublas-cu12
+nvidia-cudnn-cu12>=9.0

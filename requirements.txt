@@ -1,0 +1,27 @@
+# Hermes Dictate — core runtime dependencies
+# Install:  pip install -r requirements.txt
+# For NVIDIA GPU Whisper acceleration, also: pip install -r requirements-gpu.txt
+
+# UI
+PySide6>=6.6,<6.9
+PySide6-Fluent-Widgets>=1.6
+
+# Audio capture
+sounddevice>=0.4.6
+numpy>=1.24,<2.2
+
+# Speech-to-text (CTranslate2 backend; CPU works out of the box)
+faster-whisper>=1.0.3
+
+# LLM rewrite via OpenAI-compatible endpoint (Ollama, etc.)
+openai>=1.30
+
+# System integration
+pynput>=1.7.6
+pyperclip>=1.8.2
+
+# Config validation
+pydantic>=2.5
+
+# Tests
+pytest>=8.0

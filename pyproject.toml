@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "larkyn"
+version = "0.2.0"
+description = "Larkyn — privacy-first, system-wide voice-to-writing assistant for Windows 11"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Dermatology Solutions Group" }]
+
+dependencies = [
+    "PySide6>=6.6,<6.9",
+    "PySide6-Fluent-Widgets>=1.6",
+    "sounddevice>=0.4.6",
+    "numpy>=1.24,<2.2",
+    "faster-whisper>=1.0.3",
+    "openai>=1.30",
+    "pynput>=1.7.6",
+    "pyperclip>=1.8.2",
+    "pydantic>=2.5",
+]
+
+[project.optional-dependencies]
+gpu = ["nvidia-cublas-cu12", "nvidia-cudnn-cu12>=9.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+larkyn = "hermes.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["hermes*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
