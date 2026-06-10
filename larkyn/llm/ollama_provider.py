@@ -12,6 +12,7 @@ from __future__ import annotations
 import httpx
 
 from larkyn.core.interfaces import LLMProvider, ModelParams, Msg
+from larkyn.llm.errors import LLMError
 from larkyn.llm.openai_provider import _clean
 
 
@@ -41,7 +42,34 @@ class OllamaNativeProvider(LLMProvider):
             },
             "messages": [{"role": m.role, "content": m.content} for m in messages],
         }
-        resp = httpx.post(f"{self._base}/api/chat", json=payload, timeout=self._timeout)
-        resp.raise_for_status()
+        try:
+            resp = httpx.post(f"{self._base}/api/chat", json=payload, timeout=self._timeout)
+        except httpx.ConnectError as exc:
+            raise LLMError(
+                f"Ollama doesn't appear to be running (couldn't reach {self._base}). "
+                "Start Ollama, then dictate again."
+            ) from exc
+        except httpx.TimeoutException as exc:
+            raise LLMError(
+                "The AI model took too long to respond. If this keeps happening, "
+                "check that Ollama is healthy and your machine isn't overloaded."
+            ) from exc
+
+        if resp.status_code == 404:
+            raise LLMError(
+                f"The AI model '{params.model}' isn't installed in Ollama. "
+                f"Open a terminal and run:  ollama pull {params.model}"
+            )
+        if resp.status_code >= 400:
+            detail = ""
+            try:
+                detail = resp.json().get("error", "")
+            except Exception:
+                pass
+            raise LLMError(
+                f"Ollama returned an error (HTTP {resp.status_code})"
+                + (f": {detail}" if detail else ".")
+            )
+
         data = resp.json()
         return _clean(data.get("message", {}).get("content", ""))

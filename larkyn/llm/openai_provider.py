@@ -30,17 +30,39 @@ class OpenAIProvider(LLMProvider):
     def __init__(self, endpoint: str, api_key: str = "ollama", timeout_s: int = 120) -> None:
         from openai import OpenAI
 
+        self._endpoint = endpoint
         self._client = OpenAI(base_url=endpoint, api_key=api_key or "ollama", timeout=timeout_s)
 
     def rewrite(self, messages: list[Msg], params: ModelParams) -> str:
-        resp = self._client.chat.completions.create(
-            model=params.model,
-            messages=[{"role": m.role, "content": m.content} for m in messages],
-            temperature=params.temperature,
-            top_p=params.top_p,
-            max_tokens=params.max_tokens,
-            stream=False,
-        )
+        from openai import APIConnectionError, APIStatusError, NotFoundError
+
+        from larkyn.llm.errors import LLMError
+
+        try:
+            resp = self._client.chat.completions.create(
+                model=params.model,
+                messages=[{"role": m.role, "content": m.content} for m in messages],
+                temperature=params.temperature,
+                top_p=params.top_p,
+                max_tokens=params.max_tokens,
+                stream=False,
+            )
+        except APIConnectionError as exc:
+            raise LLMError(
+                f"Can't reach the AI endpoint at {self._endpoint}. "
+                "Check that the server is running and the endpoint in Settings is correct."
+            ) from exc
+        except NotFoundError as exc:
+            raise LLMError(
+                f"The AI model '{params.model}' isn't available at {self._endpoint}. "
+                "Check the model name in Settings (for Ollama, pull it first: "
+                f"ollama pull {params.model})."
+            ) from exc
+        except APIStatusError as exc:
+            raise LLMError(
+                f"The AI endpoint returned an error (HTTP {exc.status_code}). "
+                "Check Settings → AI model → Test connection."
+            ) from exc
         choice = resp.choices[0].message
         content = choice.content or ""
         if not content:
