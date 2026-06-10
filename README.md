@@ -41,6 +41,8 @@ Audio ─▶ Whisper ─▶ Raw Transcript ─▶ gemma4:e2b-it-qat ─▶ Final
 
 ## Install (end users)
 
+**[⬇ Download the latest installer from Releases](https://github.com/dodaniel351/Larkyn/releases/latest)** (`LarkynSetup.exe`, ~1.9 GB — it bundles the full runtime, CUDA libraries, and UI so it works offline).
+
 Run **`LarkynSetup.exe`** and follow the wizard (no admin required).
 Optional: desktop shortcut and start-at-sign-in (runs minimized to the tray).
 
