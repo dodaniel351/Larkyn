@@ -53,8 +53,8 @@ On first dictation Larkyn downloads the Whisper model (~1.6 GB, one time).
 ## Run from source (developers)
 
 ```powershell
-git clone https://github.com/<your-account>/larkyn.git
-cd larkyn
+git clone https://github.com/dodaniel351/Larkyn.git
+cd Larkyn
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pip install -r requirements-gpu.txt   # NVIDIA GPUs
